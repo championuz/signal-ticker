@@ -44,18 +44,6 @@ router.post('/post-signal', async(req, res) => {
   }
 })
 
-
-// SEND EMAIL TO ADMIN AND EMAIL
-router.post('/send-admin&user-email', validateBuyCryptoInfo, async(req, res) => {
-  try{
-    await sendBuyCryptoUserEmail(req.body)
-    await sendBuyCryptoAdminEmail(req.body)
-    res.status(200).json({status: 'ok'})
-  }catch(err){
-    res.status(500).json({status: 'error', error:'emailSendError', message:'Failed to send email'})
-  }
-})
-
 // GET
 router.get('/post-signal', async(req, res) => {
 

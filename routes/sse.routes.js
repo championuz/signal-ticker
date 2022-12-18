@@ -1,8 +1,8 @@
 const express = require('express');
-const sse = require('../sse').default;
+const stream = require('../sse');
 
 const router = express.Router();
 
-router.get("/streams", sse.init)
+router.get("/streams", stream.init)
 
 module.exports = router;

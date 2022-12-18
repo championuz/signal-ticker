@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken')
 
 const signalsSchema = new mongoose.Schema(
   {
+    Pair: {
+      type: String,
+      required: true,
+    },
     signalType: {
       type: String,
       required: true,

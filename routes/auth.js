@@ -107,8 +107,8 @@ router.post('/admin/register', async (req, res) => {
       password: encryptedPass
     })
     const {password, ...others} = savedAdmin._doc
-    const adminMain = await Admin.findOne({email: email})
-    req.session.admin = adminMain._id
+    // const adminMain = await Admin.findOne({email: email})
+    // req.session.admin = adminMain._id
     // const token = savedUser.generateVerificationToken()
     res.status(200).json({status:'ok', data: {...others}})
   }catch(err){
@@ -172,12 +172,17 @@ router.post('/admin/login', async(req, res) => {
     //   })
     // }
     const adminid = adminMain._id
-    req.session.admin = adminid
+    req.session.user = adminid
+    // console.log(adminid)
     console.log(req.session.user)
     res.status(200).json({status:'ok', data: {...others}})
   }catch(err){  
     res.status(500).json({status: 'error', message: 'An error occured while trying to login'}) 
   }
+})
+
+router.get('/admin/login', async(req, res) => {
+  return console.log(req.session.user)
 })
 
 module.exports = router

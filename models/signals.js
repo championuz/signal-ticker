@@ -24,7 +24,7 @@ const signalsSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    takeProfit: {
+    targetPrice: {
       type: Number,
       required: true,
     },

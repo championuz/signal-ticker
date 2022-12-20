@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 const Cors = require('cors')
 const morgan = require('morgan')
 const authRoute = require('./routes/auth')
-const signalsRoute = require('./routes/signals.posts')
+const signalsRoute = require('./routes/signals')
 const sseRoute = require('./routes/sse.routes')
 const app = express()
 const { Db } = require('mongodb')
@@ -20,8 +20,6 @@ db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
 const port = process.env.PORT || 3002
 
-
- 
 const corsOption = {
   origin: '*',
   optionsSuccessStatus: 200
@@ -34,11 +32,13 @@ app.use(express.json())
 app.use(session({
   secret: 'THisisMzzNAY7sSWcR8Hn6theSecret',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
+    sameSite: 'strict',
     expires: new Date(Date.now() + 86400000)
   }
 }));
+
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 // using bodyParser to parse JSON bodies into JS objects
@@ -50,7 +50,6 @@ app.use(sseRoute);
 
 // root route
 app.get('/', (req,res) => res.status(200).json('Welcome to my api home'))
-
 
 // listener
 app.listen(port, () => {

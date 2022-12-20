@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const signalPost = require('../models/signals')
 const User = require('../models/user')
+const session = require('express-session')
 const sse = require('../sse')
 // const {verifyTokenAndAuthorization, verifyToken} = require('./verifyToken')
 // const { sendBuyCryptoAdminEmail, sendBuyCryptoUserEmail } = require('../services')
@@ -26,8 +27,9 @@ const validateSignalPost = (req, res, next) => {
 // CREATE
 router.post('/post-signal', async(req, res) => {
   try{
-    if(req.session.admin){
-    const admin_details = await Admin.findOne({_id: req.session.admin})
+    // if(req.session.admin){
+      console.log(req.session.user)
+    const admin_details = await Admin.findOne({_id: req.session.user})
     // const {signalType, orderType, entryPrice, stopLoss, takeProfit, note} = req.body
     if (admin_details.isAdmin === true) {
         const signalPostCreated = await signalPost.create(req.body)
@@ -39,9 +41,9 @@ router.post('/post-signal', async(req, res) => {
         return res.status(401).json({status: 'error', message: 'Unauthorized Access'})
     }
      
-    } else {
-    return res.status(401).json({status: 'error', message: 'Login Expired'})
-    }
+    // } else {
+    // return res.status(401).json({status: 'login', message: 'Login Expired'})
+    // }
   }catch(err){
     res.status(500).json({status:'error', message:'Failed to Create Signal Post'})
   }
@@ -51,7 +53,7 @@ router.post('/post-signal', async(req, res) => {
 router.get('/post-signal', async(req, res) => {
 
   try{
-    if(req.session.user){
+    if(req.session.admin){
     const findsignals = await signalPost.find({status: 'ongoing'})
       return res.status(200).json({status: 'ok', data: findsignals})
     } else {

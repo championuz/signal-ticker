@@ -157,9 +157,9 @@ router.post('/login', async(req, res) => {
 router.post('/admin/login', async(req, res) => {
   try{
     const adminMain = await Admin.findOne({email: req.body.email})
-    if(!user) return res.status(401).json({status: 'error', message: 'Invalid Email/Password'})
+    if(!adminMain) return res.status(401).json({status: 'error', message: 'Invalid Email/Password'})
 
-    const hashPassword = CryptoJS.AES.decrypt(user.password, process.env.PASS_ENC_SECT)
+    const hashPassword = CryptoJS.AES.decrypt(adminMain.password, process.env.PASS_ENC_SECT)
     const Originalpassword = hashPassword.toString(CryptoJS.enc.Utf8)
     if (Originalpassword !== req.body.password) return res.status(401).json({status: 'error', message: 'Invalid Email/Password'})
 

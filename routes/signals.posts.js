@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const signalPost = require('../models/signals')
 const User = require('../models/user')
+const sse = require('../sse')
 // const {verifyTokenAndAuthorization, verifyToken} = require('./verifyToken')
 // const { sendBuyCryptoAdminEmail, sendBuyCryptoUserEmail } = require('../services')
 
@@ -31,6 +32,8 @@ router.post('/post-signal', async(req, res) => {
     if (admin_details.isAdmin === true) {
         const signalPostCreated = await signalPost.create(req.body)
       const {...others} = signalPostCreated._doc
+      res.status(201).json(signalPostCreated)
+      sse.send(signalPostCreated, "post")
       return res.status(200).json({status: 'ok', message: 'Signal Post Created Successfully!', data: {...others}})
     } else {
         return res.status(401).json({status: 'error', message: 'Unauthorized Access'})
@@ -59,7 +62,7 @@ router.get('/post-signal', async(req, res) => {
   }
 })
 
-//Getting Single Buy Orders
+//Getting Single Signals
 router.get('/post-signal/:id', async(req, res) => {
   try{
     if(req.session.user){

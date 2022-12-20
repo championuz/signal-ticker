@@ -44,8 +44,8 @@ app.use(morgan('combined'));
 // using bodyParser to parse JSON bodies into JS objects
 app.use(bodyParser.json());
 app.use('/auth', authRoute);
-app.use('/signals.posts', signalsRoute);
-app.use('/sse.routes', sseRoute);
+app.use('/signals', signalsRoute);
+app.use(sseRoute);
 
 
 // root route

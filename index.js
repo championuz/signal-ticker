@@ -35,6 +35,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     sameSite: 'strict',
+    secure: true,
     expires: new Date(Date.now() + 86400000)
   }
 }));

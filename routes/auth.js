@@ -181,8 +181,4 @@ router.post('/admin/login', async(req, res) => {
   }
 })
 
-router.get('/admin/login', async(req, res) => {
-  return console.log(req.session.user)
-})
-
 module.exports = router

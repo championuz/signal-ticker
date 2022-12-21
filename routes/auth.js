@@ -161,8 +161,9 @@ router.post('/admin/login', async(req, res) => {
 
     const hashPassword = CryptoJS.AES.decrypt(adminMain.password, process.env.PASS_ENC_SECT)
     const Originalpassword = hashPassword.toString(CryptoJS.enc.Utf8)
-    if (Originalpassword !== req.body.password) return res.status(401).json({status: 'error', message: 'Invalid Email/Password'})
-
+    if (Originalpassword !== req.body.password) {
+      return res.status(401).json({status: 'error', message: 'Invalid Email/Password'})
+    } else {
     const {password, ...others} = adminMain._doc
 
     // if (user.emailVerified !== true) {
@@ -172,10 +173,10 @@ router.post('/admin/login', async(req, res) => {
     //   })
     // }
     const adminid = adminMain._id
-    req.session.user = adminid
-    // console.log(adminid)
-    console.log(req.session.user)
+    req.session.admin = adminid
+    console.log(req.session.admin)
     res.status(200).json({status:'ok', data: {...others}})
+  }
   }catch(err){  
     res.status(500).json({status: 'error', message: 'An error occured while trying to login'}) 
   }

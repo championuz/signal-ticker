@@ -4,11 +4,11 @@ const session = require('express-session')
 const dotenv = require('dotenv')
 const Cors = require('cors')
 const morgan = require('morgan')
+const app = express()
 const authRoute = require('./routes/auth')
 const signalsRoute = require('./routes/signals')
 const sseRoute = require('./routes/sse.routes')
-const app = express()
-const { Db } = require('mongodb')
+// const { Db } = require('mongodb')
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 
@@ -19,6 +19,8 @@ const db = mongoose.connection
 db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('Connected to Database'))
 const port = process.env.PORT || 3002
+
+
 
 const corsOption = {
   origin: '*',
@@ -32,9 +34,8 @@ app.use(express.json())
 app.use(session({
   secret: 'THisisMzzNAY7sSWcR8Hn6theSecret',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: {
-    sameSite: 'strict',
     secure: true,
     expires: new Date(Date.now() + 86400000)
   }

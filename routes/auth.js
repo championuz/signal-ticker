@@ -174,7 +174,7 @@ router.post('/admin/login', async(req, res) => {
     // }
     const adminid = adminMain._id
     req.session.admin = adminid
-    console.log(req.session.admin)
+    // console.log(req.session.admin)
     res.status(200).json({status:'ok', data: {...others}})
   }
   }catch(err){  

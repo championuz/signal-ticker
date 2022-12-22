@@ -32,7 +32,7 @@ app.use(Cors(corsOption))
 app.use(express.json())
 // Use the express-session middleware
 app.use(session({
-  secret: 'THisisMzzNAY7sSWcR8Hn6theSecret',
+  secret: process.env.PASS_ENC_SECT,
   resave: false,
   saveUninitialized: true,
   cookie: {

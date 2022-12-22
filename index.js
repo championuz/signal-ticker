@@ -34,8 +34,9 @@ app.use(express.json())
 app.use(session({
   secret: process.env.PASS_ENC_SECT,
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
+   secure: true,
    expires: new Date(Date.now() + 86400000)
   }
 }));

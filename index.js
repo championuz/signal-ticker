@@ -7,7 +7,7 @@ const morgan = require('morgan')
 const app = express()
 const authRoute = require('./routes/auth')
 const signalsRoute = require('./routes/signals')
-// const sseRoute = require('./routes/sse.routes')
+const sseRoute = require('./routes/sse.routes')
 // const { Db } = require('mongodb')
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
@@ -36,6 +36,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
+    // secure: false,
     expires: new Date(Date.now() + 86400000)
   }
 }));
@@ -46,7 +47,7 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use('/auth', authRoute);
 app.use('/signals', signalsRoute);
-// app.use(sseRoute);
+app.use(sseRoute);
 
 
 // root route

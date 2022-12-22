@@ -32,11 +32,13 @@ router.post('/post-signal', async(req, res) => {
       console.log(req.session.admin)
       const {Pair, signalType, orderType, entryPrice, stopLoss, targetPrice, note} = req.body
       const admin_details = await Admin.findOne({_id: req.session.admin})
+      console.log(admin_details)
     if (admin_details.isAdmin !== true) return res.status(401).json({status: 'error', message: 'Unauthorized Access'});
+    console.log(req.body)
       
       const signalPostCreated = await signalPost.create(req.body)
       const {...others} = signalPostCreated._doc
-      // sse.send(signalPostCreated, "post")
+      sse.send(signalPostCreated, "post")
       return res.status(200).json({status: 'ok', message: 'Signal Post Created Successfully!', data: {...others}})
     
     } else {

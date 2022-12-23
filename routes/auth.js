@@ -5,7 +5,7 @@ const session = require('express-session')
 const CryptoJS = require('crypto-js')
 const jwt = require('jsonwebtoken')
 // const { sendVerificationEmail, sendResetPasswordEmail } = require('../handlebars')
-// const { verifyTokenAndAuthorization } = require('./verifyToken')
+const { verifyTokenAndAuthorization } = require('./verifyToken')
 
 const validateCredentials = (req, res, next) => {
   const emailValidator = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -144,10 +144,14 @@ router.post('/login', async(req, res) => {
     //     status:'error', message: "Unverified Account. Please Verify Your Email!", data: {...others, verificationCode: token}
     //   })
     // }
-    const userid = user._id
-    req.session.user = userid
-    console.log(req.session.user)
-    res.status(200).json({status:'ok', data: {...others}})
+    const accessToken = jwt.sign({
+      id: user._id,
+      isAdmin: user.isAdmin
+    }, process.env.JWT_SECT,
+      {expiresIn: '1d'}
+    )
+
+    res.status(200).json({status:'ok', data: {...others, accessToken}})
   }catch(err){  
     res.status(500).json({status: 'error', message: 'An error occured while trying to login'}) 
   }
@@ -172,10 +176,18 @@ router.post('/admin/login', async(req, res) => {
     //     status:'error', message: "Unverified Account. Please Verify Your Email!", data: {...others, verificationCode: token}
     //   })
     // }
-    const adminid = adminMain._id
-    req.session.admin = adminid
-    console.log(req.session.admin)
-    res.status(200).json({status:'ok', data: {...others}})
+    // const adminid = adminMain._id
+    // req.session.admin = adminid
+    // console.log(req.session.admin)
+    // res.status(200).json({status:'ok', data: {...others}})
+    const accessToken = jwt.sign({
+      id: adminMain._id,
+      isAdmin: adminMain.isAdmin
+    }, process.env.JWT_SECT,
+      {expiresIn: '1d'}
+    )
+    
+    res.status(200).json({status:'ok', data: {...others, accessToken}})
   }
   }catch(err){  
     res.status(500).json({status: 'error', message: 'An error occured while trying to login'}) 

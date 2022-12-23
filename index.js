@@ -36,9 +36,22 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-   expires: new Date(Date.now() + 86400000)
-  }
+    maxAge: 1000 * 60 * 60 * 24 * 30,
+    secure: true,
+   }
 }));
+
+// app.use(cors({ origin:true, credentials:true }));
+
+//     // prevent CORS problems
+//     app.use(function (req, res, next) {
+//         res.header('Access-Control-Allow-Origin', '*');
+//         res.header('Access-Control-Allow-Headers', 'Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization');
+//         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT ,DELETE');
+//         res.header('Access-Control-Allow-Credentials', true);
+//         next();
+//     })
+
 
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));

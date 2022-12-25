@@ -107,10 +107,14 @@ router.post('/admin/register', async (req, res) => {
       password: encryptedPass
     })
     const {password, ...others} = savedAdmin._doc
-    // const adminMain = await Admin.findOne({email: email})
-    // req.session.admin = adminMain._id
-    // const token = savedUser.generateVerificationToken()
-    res.status(200).json({status:'ok', data: {...others}})
+    const adminReg = await Admin.findOne({email: email})
+    const accessToken = jwt.sign({
+      id: adminReg._id,
+      isAdmin: adminReg.isAdmin
+    }, process.env.JWT_SECT,
+      {expiresIn: '1d'}
+    )
+    res.status(200).json({status:'ok', data: {...others, accessToken}})
   }catch(err){
     // duplicate key error
     if(err.code === 11000){

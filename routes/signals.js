@@ -46,7 +46,18 @@ router.post('/post-signal', verifyTokenAndAdmin, verifyToken, async(req, res) =>
 })
 
 // GET
-router.get('/post-signal',  verifyTokenAndAdmin, verifyToken,  async(req, res) => {
+router.get('/get-post-signal', verifyTokenAndAdmin, verifyToken,  async(req, res) => {
+
+  try{
+    const findsignals = await signalPost.find({status: 'ongoing'})
+      return res.status(200).json({status: 'ok', data: findsignals})
+  }catch(err){
+    res.status(404).json({status:'error', message: err + "Unable to Get Signal"})
+  }
+})
+
+// Admin GET
+router.get('/admin/get-post-signals', verifyToken, verifyTokenAndAdmin, async(req, res) => {
 
   try{
     const findsignals = await signalPost.find({status: 'ongoing'})
@@ -57,17 +68,13 @@ router.get('/post-signal',  verifyTokenAndAdmin, verifyToken,  async(req, res) =
 })
 
 //Getting Single Signals
-router.get('/post-signal/:id', async(req, res) => {
+router.get('/post-signal/:id', verifyTokenAndAdmin, verifyToken, async(req, res) => {
   try{
-    if(req.session.user){
       const findSingleSignal = await signalPost.findById(req.params.id)
       if(findSingleSignal !== null){
       return res.status(200).json({status: 'ok', data: findSingleSignal})
       }
         return res.status(401).json({status: 'error', message: 'Unable to Requested Signal'})
-    } else {
-      return res.status(401).json({status: 'error', message: 'Login Expired'})
-    }
   }catch(err){
     res.status(404).json({status:'error', message: "Failed to get Requested Signal"})
   }

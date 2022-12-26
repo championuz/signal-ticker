@@ -46,7 +46,7 @@ router.post('/post-signal', verifyTokenAndAdmin, verifyToken, async(req, res) =>
 })
 
 // GET
-router.get('/get-post-signal', verifyTokenAndAdmin, verifyToken,  async(req, res) => {
+router.get('/get-post-signal', verifyToken,  async(req, res) => {
 
   try{
     const findsignals = await signalPost.find({status: 'ongoing'})

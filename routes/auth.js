@@ -9,7 +9,7 @@ const { verifyTokenAndAuthorization } = require('./verifyToken')
 
 const validateCredentials = (req, res, next) => {
   const emailValidator = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-  const {name, email, password, phone, country} = req.body
+  const {name, email, password} = req.body
 
   if(!name || typeof name !== 'string'){
     return res.status(401).json({status: 'error', message: 'Invalid name'})
@@ -22,12 +22,6 @@ const validateCredentials = (req, res, next) => {
   }
   else if(password.length < 5){
     return res.json({status: 'error', message:'Password too short. Should be at least 6 characters'})
-  }
-  if(!phone || typeof phone !== "string"){
-    return res.status(401).json({status: 'error', message: 'Invalid Phone number'})
-  }
-  if(!country || typeof country !== 'string'){
-    return res.status(401).json({status: 'error', message: 'Invalid Country Name'})
   }
   else{
     next()

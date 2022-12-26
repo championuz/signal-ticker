@@ -45,8 +45,8 @@ const UserSchema = new mongoose.Schema(
     subscribed: {
       type: subscribedSchema,
       default: {
-        forex: '',
-        indices: ''
+        forex: false,
+        indices: false
       }
     },
     isAdmin: {

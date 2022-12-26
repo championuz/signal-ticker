@@ -192,4 +192,17 @@ router.post('/admin/login', async(req, res) => {
   }
 })
 
+//Getting User
+router.get('/users', async(req, res) => {
+  try{
+      const findUsers = await User.find({emailVerified: false})
+      if(findUsers !== null){
+      return res.status(200).json({status: 'ok', data: findUsers})
+      }
+        return res.status(401).json({status: 'error', message: 'Unable to fetch Requested Users'})
+  }catch(err){
+    res.status(404).json({status:'error', message: "Failed to get users"})
+  }
+})
+
 module.exports = router

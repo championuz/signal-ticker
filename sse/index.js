@@ -1,4 +1,4 @@
 const SSE = require("express-sse");
-const stream = new SSE(["test event"]);
+const sse = new SSE(["test event"]);
 
-module.exports = stream
+module.exports = sse

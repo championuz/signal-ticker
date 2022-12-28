@@ -30,15 +30,17 @@ const corsOption = {
 // middleware
 app.use(Cors(corsOption))
 app.use(express.json())
+app.use(compression())
+
 // Use the express-session middleware
-app.use(session({
-  secret: process.env.PASS_ENC_SECT,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 30,
-   }
-}));
+// app.use(session({
+//   secret: process.env.PASS_ENC_SECT,
+//   resave: false,
+//   saveUninitialized: false,
+//   cookie: {
+//     maxAge: 1000 * 60 * 60 * 24 * 30,
+//    }
+// }));
 
 // app.use(cors({ origin:true, credentials:true }));
 

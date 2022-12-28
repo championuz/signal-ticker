@@ -29,7 +29,6 @@ const validateSignalPost = (req, res, next) => {
 router.post('/post-signal', verifyTokenAndAdmin, verifyToken, async(req, res) => {
   const {orderType, signalType, note, Pair, entryPrice,  targetPrice, stopLoss} = req.body
   try{
-    console.log("It got to the backend oo")
       const signalPostCreated = await signalPost.create({
         signalType,
        orderType,

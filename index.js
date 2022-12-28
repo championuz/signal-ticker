@@ -1,4 +1,5 @@
 const express = require('express')
+const compression = require('compression')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const dotenv = require('dotenv')
@@ -40,7 +41,7 @@ app.use(compression())
 //   cookie: {
 //     maxAge: 1000 * 60 * 60 * 24 * 30,
 //    }
-// }));
+// })); 0610785211
 
 // app.use(cors({ origin:true, credentials:true }));
 

@@ -1,8 +1,15 @@
-const express = require('express');
-const sse = require('../sse');
+const router = require('express').Router();
+const SSE = require("express-sse");
 
-const router = express.Router();
+const sse = new SSE(["New Text Event"]);
 
-router.get("/stream", sse.init)
+router.get("/stream", (req, res) => {
+    res.set({
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      Connection: 'keep-alive',
+    });
+    sse.init(req, res);
+});
 
 module.exports = router;

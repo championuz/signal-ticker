@@ -61,7 +61,7 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use('/auth', authRoute);
 app.use('/signals', signalsRoute);
-app.use(sseRoute);
+app.use("/", sseRoute);
 
 
 // root route

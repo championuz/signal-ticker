@@ -1,7 +1,6 @@
 const router = require('express').Router();
-const SSE = require("express-sse");
+const sse = require('../sse');
 
-const sse = new SSE(["New Text Event"]);
 
 router.get("/stream", (req, res) => {
     res.set({
